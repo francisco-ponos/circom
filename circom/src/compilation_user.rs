@@ -33,7 +33,7 @@ pub fn compile(config: CompilerConfig) -> Result<(), ()> {
             Config { debug_output: config.debug_output, produce_input_log: config.produce_input_log, wat_flag: config.wat_flag },
             VERSION
         )?;
-    
+
         if config.c_flag {
             compiler_interface::write_c(&circuit, &config.c_folder, &config.c_run_name, &config.c_file, &config.dat_file)?;
             println!(
@@ -56,7 +56,7 @@ pub fn compile(config: CompilerConfig) -> Result<(), ()> {
                 "Makefile".to_string()
             );
         }
-    
+
         match (config.wat_flag, config.wasm_flag) {
             (true, true) => {
                 compiler_interface::write_wasm(&circuit, &config.js_folder, &config.wasm_name, &config.wat_file)?;
@@ -93,7 +93,7 @@ pub fn compile(config: CompilerConfig) -> Result<(), ()> {
             (false, false) => {}
         }
     }
-    
+
 
     Ok(())
 }

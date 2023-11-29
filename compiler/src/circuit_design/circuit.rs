@@ -85,7 +85,7 @@ impl WriteWasm for Circuit {
         code.append(&mut code_aux);
 
         code_aux = get_input_size_generator(&producer);
-        code.append(&mut code_aux);	
+        code.append(&mut code_aux);
 
         code_aux = get_witness_size_generator(&producer);
         code.append(&mut code_aux);
@@ -226,7 +226,7 @@ impl WriteWasm for Circuit {
         code = merge_code(code_aux);
         writer.write_all(code.as_bytes()).map_err(|_| {})?;
         //writer.flush().map_err(|_| {})?;
-	
+
         code_aux = get_witness_size_generator(&producer);
         code = merge_code(code_aux);
         writer.write_all(code.as_bytes()).map_err(|_| {})?;
@@ -317,7 +317,7 @@ impl WriteC for Circuit {
         std::mem::drop(function_headers);
 
         let (func_list_no_parallel, func_list_parallel) = generate_function_list(
-            producer, 
+            producer,
             producer.get_template_instance_list()
         );
 
@@ -333,7 +333,7 @@ impl WriteC for Circuit {
             "uint get_main_input_signal_start() {{return {};}}\n",
             producer.get_number_of_main_outputs()
         ));
-	
+
         code.push(format!(
             "uint get_main_input_signal_no() {{return {};}}\n",
             producer.get_number_of_main_inputs()
@@ -360,7 +360,7 @@ impl WriteC for Circuit {
             producer.get_io_map().len()
         ));
         //code.append(&mut generate_message_list_def(producer, producer.get_message_list()));
-        
+
         // Functions to release the memory
         let mut release_component_code = generate_function_release_memory_component();
         code.append(&mut release_component_code);
@@ -422,7 +422,7 @@ impl WriteC for Circuit {
         code.push("#include \"circom.hpp\"".to_string());
         code.push("#include \"calcwit.hpp\"".to_string());
 
-	
+
         let mut template_headers = collect_template_headers(producer.get_template_instance_list());
         let function_headers: Vec<_> = self.functions
             .iter()
@@ -435,7 +435,7 @@ impl WriteC for Circuit {
         std::mem::drop(function_headers);
 
         let (func_list_no_parallel, func_list_parallel) = generate_function_list(
-            producer, 
+            producer,
             producer.get_template_instance_list()
         );
 
@@ -451,7 +451,7 @@ impl WriteC for Circuit {
             "uint get_main_input_signal_start() {{return {};}}\n",
             producer.get_number_of_main_outputs()
         ));
-	
+
         code.push(format!(
             "uint get_main_input_signal_no() {{return {};}}\n",
             producer.get_number_of_main_inputs()
@@ -478,7 +478,7 @@ impl WriteC for Circuit {
             producer.get_io_map().len()
         ));
         //code.append(&mut generate_message_list_def(producer, producer.get_message_list()));
-        
+
         // Functions to release the memory
         let mut release_component_code = generate_function_release_memory_component();
         code.append(&mut release_component_code);
@@ -487,20 +487,20 @@ impl WriteC for Circuit {
 
 	code_write = merge_code(code);
         writer.write_all(code_write.as_bytes()).map_err(|_| {})?;
-	
+
         code_write = "// function declarations\n".to_string();
         writer.write_all(code_write.as_bytes()).map_err(|_| {})?;
-	
+
         for f in &self.functions {
             let (f_code, _) = f.produce_c(producer, None);
             //code.append(&mut f_code);
 	    code_write = merge_code(f_code);
             writer.write_all(code_write.as_bytes()).map_err(|_| {})?;
         }
-	
+
 	code_write = "// template declarations\n".to_string();
         writer.write_all(code_write.as_bytes()).map_err(|_| {})?;
-	
+
         for t in &self.templates {
             let (t_code, _) = t.produce_c(producer, None);
 	    code_write = merge_code(t_code);
@@ -540,7 +540,7 @@ impl WriteC for Circuit {
 	code_write = build_callable(run_circuit, run_circuit_args, main_run_body) + "\n";
         writer.write_all(code_write.as_bytes()).map_err(|_| {})?;
         writer.flush().map_err(|_| {})
-	    
+
     }
 
 }
