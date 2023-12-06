@@ -9,19 +9,19 @@ Circom_TemplateFunction _functionTable[1] = {
     fibonacci_0_run};
 Circom_TemplateFunction _functionTableParallel[1] = {
     NULL};
-uint get_main_input_signal_start() { return 2; }
+uint get_main_input_signal_start() { return 4; }
 
 uint get_main_input_signal_no() { return 2; }
 
-uint get_total_signal_no() { return 8; }
+uint get_total_signal_no() { return 7; }
 
 uint get_number_of_components() { return 1; }
 
 uint get_size_of_input_hashmap() { return 256; }
 
-uint get_size_of_witness() { return 8; }
+uint get_size_of_witness() { return 7; }
 
-uint get_size_of_constants() { return 4; }
+uint get_size_of_constants() { return 3; }
 
 uint get_size_of_io_map() { return 0; }
 
@@ -80,64 +80,37 @@ void fibonacci_0_run(uint ctx_index, Circom_CalcWit *ctx)
     bool *mySubcomponentsParallel = ctx->componentMemory[ctx_index].subcomponentsParallel;
     FrElement *circuitConstants = ctx->circuitConstants;
     std::string *listOfTemplateMessages = ctx->listOfTemplateMessages;
-    FrElement expaux[3];
-    FrElement lvar[2];
+    FrElement expaux[4];
+    FrElement lvar[0];
     uint sub_component_aux;
     uint index_multiple_eq;
     {
-        PFrElement aux_dest = &lvar[0];
+        PFrElement aux_dest = &signalValues[mySignalStart + 5];
         // load src
-        // end load src
-        Fr_copy(aux_dest, &circuitConstants[0]);
-    }
-    {
-        PFrElement aux_dest = &signalValues[mySignalStart + 6];
-        // load src
-        Fr_mul(&expaux[0], &signalValues[mySignalStart + 1], &signalValues[mySignalStart + 2]); // line circom 31
+        Fr_mul(&expaux[0], &signalValues[mySignalStart + 3], &signalValues[mySignalStart + 3]); // line circom 47
         // end load src
         Fr_copy(aux_dest, &expaux[0]);
-    }
-    {
-        PFrElement aux_dest = &signalValues[mySignalStart + 3];
-        // load src
-        // end load src
-        Fr_copy(aux_dest, &signalValues[mySignalStart + 1]);
-    }
-    {
-        PFrElement aux_dest = &signalValues[mySignalStart + 4];
-        // load src
-        Fr_add(&expaux[0], &signalValues[mySignalStart + 1], &signalValues[mySignalStart + 2]); // line circom 34
-        // end load src
-        Fr_copy(aux_dest, &expaux[0]);
-    }
-    {
-        PFrElement aux_dest = &lvar[1];
-        // load src
-        // end load src
-        Fr_copy(aux_dest, &circuitConstants[3]);
-    }
-    Fr_lt(&expaux[0], &lvar[1], &circuitConstants[0]); // line circom 36
-    while (Fr_isTrue(&expaux[0]))
-    {
-        {
-            PFrElement aux_dest = &signalValues[mySignalStart + 5];
-            // load src
-            Fr_add(&expaux[0], &signalValues[mySignalStart + 3], &signalValues[mySignalStart + 4]); // line circom 37
-            // end load src
-            Fr_copy(aux_dest, &expaux[0]);
-        }
-        {
-            PFrElement aux_dest = &lvar[1];
-            // load src
-            // end load src
-            Fr_copy(aux_dest, &circuitConstants[0]);
-        }
-        Fr_lt(&expaux[0], &lvar[1], &circuitConstants[0]); // line circom 36
     }
     {
         PFrElement aux_dest = &signalValues[mySignalStart + 0];
         // load src
-        Fr_add(&expaux[0], &signalValues[mySignalStart + 5], &signalValues[mySignalStart + 4]); // line circom 40
+        Fr_mul(&expaux[0], &signalValues[mySignalStart + 5], &signalValues[mySignalStart + 5]); // line circom 49
+        // end load src
+        Fr_copy(aux_dest, &expaux[0]);
+    }
+    {
+        PFrElement aux_dest = &signalValues[mySignalStart + 1];
+        // load src
+        Fr_mul(&expaux[1], &signalValues[mySignalStart + 3], &signalValues[mySignalStart + 3]); // line circom 50
+        Fr_add(&expaux[0], &expaux[1], &circuitConstants[2]);                                   // line circom 50
+        // end load src
+        Fr_copy(aux_dest, &expaux[0]);
+    }
+    {
+        PFrElement aux_dest = &signalValues[mySignalStart + 2];
+        // load src
+        Fr_mul(&expaux[1], &signalValues[mySignalStart + 4], &signalValues[mySignalStart + 4]); // line circom 51
+        Fr_add(&expaux[0], &expaux[1], &circuitConstants[2]);                                   // line circom 51
         // end load src
         Fr_copy(aux_dest, &expaux[0]);
     }

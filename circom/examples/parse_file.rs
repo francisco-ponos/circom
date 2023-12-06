@@ -4,7 +4,7 @@ fn main() -> Result<(), ()> {
     use circom::compilation_user::CompilerConfig;
     use circom::execution_user::ExecutionConfig;
 
-    let current_path = std::path::Path::new("circom/examples");
+    let current_path = std::path::Path::new("/home/coder/Documents/Code/ponos/zprize-ecdsa-varuna/circom/circom/examples");
 
     let user_input = Input {
         input_program: current_path.join("example.circom"),

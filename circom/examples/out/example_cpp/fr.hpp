@@ -7,14 +7,15 @@
 
 #ifdef __APPLE__
 #include <sys/types.h> // typedef unsigned int uint;
-#endif // __APPLE__
+#endif                 // __APPLE__
 
 #define Fr_N64 4
 #define Fr_SHORT 0x00000000
 #define Fr_LONG 0x80000000
 #define Fr_LONGMONTGOMERY 0xC0000000
 typedef uint64_t FrRawElement[Fr_N64];
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
     int32_t shortVal;
     uint32_t type;
     FrRawElement longVal;
@@ -69,10 +70,9 @@ extern "C" int Fr_rawIsZero(const FrRawElement pRawB);
 
 extern "C" void Fr_fail();
 
-
 // Pending functions to convert
 
-void Fr_str2element(PFrElement pE, char const*s, uint base);
+void Fr_str2element(PFrElement pE, char const *s, uint base);
 char *Fr_element2str(PFrElement pE);
 void Fr_idiv(PFrElement r, PFrElement a, PFrElement b);
 void Fr_mod(PFrElement r, PFrElement a, PFrElement b);
@@ -80,14 +80,15 @@ void Fr_inv(PFrElement r, PFrElement a);
 void Fr_div(PFrElement r, PFrElement a, PFrElement b);
 void Fr_pow(PFrElement r, PFrElement a, PFrElement b);
 
-class RawFr {
+class RawFr
+{
 
 public:
     const static int N64 = Fr_N64;
     const static int MaxBits = 254;
 
-
-    struct Element {
+    struct Element
+    {
         FrRawElement v;
     };
 
@@ -97,7 +98,6 @@ private:
     Element fNegOne;
 
 public:
-
     RawFr();
     ~RawFr();
 
@@ -116,27 +116,52 @@ public:
     void inline sub(Element &r, const Element &a, const Element &b) { Fr_rawSub(r.v, a.v, b.v); };
     void inline mul(Element &r, const Element &a, const Element &b) { Fr_rawMMul(r.v, a.v, b.v); };
 
-    Element inline add(const Element &a, const Element &b) { Element r; Fr_rawAdd(r.v, a.v, b.v); return r;};
-    Element inline sub(const Element &a, const Element &b) { Element r; Fr_rawSub(r.v, a.v, b.v); return r;};
-    Element inline mul(const Element &a, const Element &b) { Element r; Fr_rawMMul(r.v, a.v, b.v); return r;};
+    Element inline add(const Element &a, const Element &b)
+    {
+        Element r;
+        Fr_rawAdd(r.v, a.v, b.v);
+        return r;
+    };
+    Element inline sub(const Element &a, const Element &b)
+    {
+        Element r;
+        Fr_rawSub(r.v, a.v, b.v);
+        return r;
+    };
+    Element inline mul(const Element &a, const Element &b)
+    {
+        Element r;
+        Fr_rawMMul(r.v, a.v, b.v);
+        return r;
+    };
 
-    Element inline neg(const Element &a) { Element r; Fr_rawNeg(r.v, a.v); return r; };
-    Element inline square(const Element &a) { Element r; Fr_rawMSquare(r.v, a.v); return r; };
+    Element inline neg(const Element &a)
+    {
+        Element r;
+        Fr_rawNeg(r.v, a.v);
+        return r;
+    };
+    Element inline square(const Element &a)
+    {
+        Element r;
+        Fr_rawMSquare(r.v, a.v);
+        return r;
+    };
 
-    Element inline add(int a, const Element &b) { return add(set(a), b);};
-    Element inline sub(int a, const Element &b) { return sub(set(a), b);};
-    Element inline mul(int a, const Element &b) { return mul(set(a), b);};
+    Element inline add(int a, const Element &b) { return add(set(a), b); };
+    Element inline sub(int a, const Element &b) { return sub(set(a), b); };
+    Element inline mul(int a, const Element &b) { return mul(set(a), b); };
 
-    Element inline add(const Element &a, int b) { return add(a, set(b));};
-    Element inline sub(const Element &a, int b) { return sub(a, set(b));};
-    Element inline mul(const Element &a, int b) { return mul(a, set(b));};
+    Element inline add(const Element &a, int b) { return add(a, set(b)); };
+    Element inline sub(const Element &a, int b) { return sub(a, set(b)); };
+    Element inline mul(const Element &a, int b) { return mul(a, set(b)); };
 
     void inline mul1(Element &r, const Element &a, uint64_t b) { Fr_rawMMul1(r.v, a.v, b); };
     void inline neg(Element &r, const Element &a) { Fr_rawNeg(r.v, a.v); };
     void inline square(Element &r, const Element &a) { Fr_rawMSquare(r.v, a.v); };
     void inv(Element &r, const Element &a);
     void div(Element &r, const Element &a, const Element &b);
-    void exp(Element &r, const Element &base, uint8_t* scalar, unsigned int scalarSize);
+    void exp(Element &r, const Element &base, uint8_t *scalar, unsigned int scalarSize);
 
     void inline toMontgomery(Element &r, const Element &a) { Fr_rawToMontgomery(r.v, a.v); };
     void inline fromMontgomery(Element &r, const Element &a) { Fr_rawFromMontgomery(r.v, a.v); };
@@ -149,16 +174,11 @@ public:
     int toRprBE(const Element &element, uint8_t *data, int bytes);
     int fromRprBE(Element &element, const uint8_t *data, int bytes);
 
-    int bytes ( void ) { return Fr_N64 * 8; };
+    int bytes(void) { return Fr_N64 * 8; };
 
     void fromUI(Element &r, unsigned long int v);
 
     static RawFr field;
-
 };
 
-
 #endif // __FR_H
-
-
-

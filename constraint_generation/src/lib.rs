@@ -57,6 +57,31 @@ pub fn build_circuit(program: ProgramArchive, config: BuildConfig) -> BuildRespo
     }
     if config.flag_f {
         sync_dag_and_vcp(&mut vcp, &mut dag);
+
+        for n in dag.nodes.iter() {
+            for c in n.constraints() {
+                println!(
+                    "[{}]\n[a] {}\n[b] {}\n[c] {}\n",
+                    n.get_entry().get_label(),
+                    c.a()
+                        .iter()
+                        .map(|(k, v)| format!("{}: {}", k, v))
+                        .collect::<Vec<_>>()
+                        .join(", "),
+                    c.b()
+                        .iter()
+                        .map(|(k, v)| format!("{}: {}", k, v))
+                        .collect::<Vec<_>>()
+                        .join(", "),
+                    c.c()
+                        .iter()
+                        .map(|(k, v)| format!("{}: {}", k, v))
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                );
+            }
+        }
+
         Result::Ok((Box::new(dag), vcp))
     } else {
         let list = simplification_process(&mut vcp, dag, &config);

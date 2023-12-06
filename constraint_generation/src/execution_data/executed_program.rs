@@ -135,6 +135,7 @@ impl ExecutedProgram {
         }
 
         temp_instances[dag.main_id()].is_not_parallel_component = true;
+
         dag.clean_constraints();
         if flags.inspect {
             let mut w = dag.constraint_analysis()?;
